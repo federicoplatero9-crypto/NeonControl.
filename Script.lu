@@ -1,19 +1,42 @@
 
-local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+-- NEONCONTROL V1.0
+
+local Players = game:GetService("Players")
+local UIS = game:GetService("UserInputService")
+local Player = Players.LocalPlayer
+
+local Rayfield = loadstring(game:HttpGet(
+    "https://sirius.menu/rayfield"
+))()
+
+local Speed = 16
+local Jump = 50
+
+local function Apply(Character)
+    local Humanoid = Character:WaitForChild("Humanoid", 10)
+    if not Humanoid then return end
+
+    Humanoid.WalkSpeed = Speed
+    Humanoid.UseJumpPower = true
+    Humanoid.JumpPower = Jump
+end
+
+if Player.Character then
+    task.spawn(Apply, Player.Character)
+end
+
+Player.CharacterAdded:Connect(Apply)
 
 local Window = Rayfield:CreateWindow({
     Name = "NeonControl",
     LoadingTitle = "NeonControl",
-    LoadingSubtitle = "by Federico",
+    LoadingSubtitle = "Version 1.0",
     ConfigurationSaving = {
         Enabled = false
     }
 })
 
-local Tab = Window:CreateTab("Ajustes Personales", 4483362458)
-
-local Speed = 16
-local Jump = 50
+local Tab = Window:CreateTab("Principal", 4483362458)
 
 Tab:CreateSlider({
     Name = "Velocidad",
@@ -23,7 +46,10 @@ Tab:CreateSlider({
     Flag = "Speed",
     Callback = function(Value)
         Speed = Value
-        print("Velocidad seleccionada:", Speed)
+        if Player.Character then
+            local H = Player.Character:FindFirstChildOfClass("Humanoid")
+            if H then H.WalkSpeed = Value end
+        end
     end
 })
 
@@ -35,12 +61,18 @@ Tab:CreateSlider({
     Flag = "Jump",
     Callback = function(Value)
         Jump = Value
-        print("Salto seleccionado:", Jump)
+        if Player.Character then
+            local H = Player.Character:FindFirstChildOfClass("Humanoid")
+            if H then
+                H.UseJumpPower = true
+                H.JumpPower = Value
+            end
+        end
     end
 })
 
 Rayfield:Notify({
     Title = "NeonControl",
-    Content = "Interfaz cargada correctamente",
+    Content = "Menu iniciado correctamente",
     Duration = 5
 })
