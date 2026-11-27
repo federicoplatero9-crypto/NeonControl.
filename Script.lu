@@ -1,0 +1,46 @@
+
+local Rayfield = loadstring(game:HttpGet("https://sirius.menu/rayfield"))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "NeonControl",
+    LoadingTitle = "NeonControl",
+    LoadingSubtitle = "by Federico",
+    ConfigurationSaving = {
+        Enabled = false
+    }
+})
+
+local Tab = Window:CreateTab("Ajustes Personales", 4483362458)
+
+local Speed = 16
+local Jump = 50
+
+Tab:CreateSlider({
+    Name = "Velocidad",
+    Range = {16, 200},
+    Increment = 1,
+    CurrentValue = 16,
+    Flag = "Speed",
+    Callback = function(Value)
+        Speed = Value
+        print("Velocidad seleccionada:", Speed)
+    end
+})
+
+Tab:CreateSlider({
+    Name = "Fuerza de salto",
+    Range = {50, 300},
+    Increment = 5,
+    CurrentValue = 50,
+    Flag = "Jump",
+    Callback = function(Value)
+        Jump = Value
+        print("Salto seleccionado:", Jump)
+    end
+})
+
+Rayfield:Notify({
+    Title = "NeonControl",
+    Content = "Interfaz cargada correctamente",
+    Duration = 5
+})
