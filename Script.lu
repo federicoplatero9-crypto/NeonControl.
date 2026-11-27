@@ -36,8 +36,6 @@ local Window = Rayfield:CreateWindow({
     }
 })
 
-local Tab = Window:CreateTab("Principal", 4483362458)
-
 Tab:CreateSlider({
     Name = "Velocidad",
     Range = {16, 200},
@@ -46,10 +44,15 @@ Tab:CreateSlider({
     Flag = "Speed",
     Callback = function(Value)
         Speed = Value
-        if Player.Character then
-            local H = Player.Character:FindFirstChildOfClass("Humanoid")
-            if H then H.WalkSpeed = Value end
-        end
+
+        local Character = Player.Character
+        if not Character then return end
+
+        local Humanoid = Character:FindFirstChildOfClass("Humanoid")
+        if not Humanoid then return end
+
+        Humanoid.WalkSpeed = Speed
+        print("Velocidad configurada:", Speed)
     end
 })
 
